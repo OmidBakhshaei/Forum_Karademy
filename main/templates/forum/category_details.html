@@ -1,0 +1,21 @@
+{% extends "forum/base.html" %}
+
+{% block title %}
+    Category's name
+{% endblock title %}
+
+{% block content %}
+    <h1>{{category.title}}</h1>
+    <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <!-- <a class="mr-2" href="#">{{ category.title }}</a> -->
+                    <p class="article-content">{{category.description}}</p>
+                    <!-- <p class="article-content">Django</p>
+                    <p class="article-content">HTML</p>
+                    <p class="article-content">CSS</p>
+                    <p class="article-content">...</p> -->
+                </div>
+            </div>
+    </article>
+{% endblock content %}
