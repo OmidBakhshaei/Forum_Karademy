@@ -4,6 +4,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Question, Answer, Category
+from .forms import QuestionForm
 
 # class HomeView(ListView):
 #     model = Question
@@ -27,10 +28,12 @@ def questions(request):
 
 # def ask(request):
 #     return render(request, 'forum/ask.html')
-class AskQuestionDetailView(CreateView):
+class AskQuestionCreateView(CreateView):
     model = Question
+    form_class = QuestionForm
     template_name = 'forum/ask.html'
-    fields = '__all__'
+    # fields = ['title', 'question', 'questioner', 'category', 'answered']
+
 
 def categories(request):
     context = {

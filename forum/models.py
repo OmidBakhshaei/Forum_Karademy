@@ -2,9 +2,11 @@
 # pylint: disable=C0115
 # pylint: disable=C0116
 # pylint: disable=E5142
+# pylint: disable=W0222
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -46,6 +48,11 @@ class Question(models.Model):
 
     def get_absolute_url(self):
         return reverse("question_details", kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Question, self).save(*args, **kwargs)
+
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
