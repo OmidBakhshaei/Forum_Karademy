@@ -5,22 +5,24 @@
 {% endblock title %}
 
 {% block content %}
-    {% for question in questions %}       
-        <article class="media content-section">
-        <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="#">{{ question.questioner }}</a>
-                <small class="text-muted">{{ question.date_posted }}</small>
+    {% for question in questions %}
+        {% if question.answered %}
+        {% else %}       
+            <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ question.questioner }}</a>
+                    <small class="text-muted">{{ question.date_posted }}</small>
+                </div>
+                <h2><a class="article-title" href="{% url 'question_details' question.slug %}">{{ question.title }}</a></h2>
+                <p class="article-content">{{ question.question }}</p>
+                <p class="article-content">No answer yet!</p>
+                    <!-- {{ question.answer }} -->
+                <p style="color:green" class="article-content">{% if question.answered %} <strong>Solved!</strong> {% endif %}</p>
+                <a class="mr-2" href="{% url 'categories' %}">{{ question.categories }}</a>
+                <!-- <a class="mr-2" href="#">{% for category in question.categories %} category {% endfor %}</a> -->
             </div>
-            <h2><a class="article-title" href="{% url 'question_details' question.pk %}">{{ question.title }}</a></h2>
-            <p class="article-content">{{ question.question }}</p>
-            <p class="article-content">No answer yet!</p>
-                <!-- {{ question.answer }} -->
-            <p style="color:green" class="article-content">{% if question.answered %} <strong>Solved!</strong> {% endif %}</p>
-            <a class="mr-2" href="#">{{ question.category.first }}</a>
-        </div>
-        </article>
+            </article>
+        {% endif %}
     {% endfor %}
 {% endblock content %}
-
-<!-- {% url 'category_details' category.pk %} -->

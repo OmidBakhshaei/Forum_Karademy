@@ -10,7 +10,7 @@ class QuestionAdmin(admin.ModelAdmin):
     model= Question
     list_display = ('title', 'question', 'categories', 'answered',)
     filter_horizontal = ('category',)
-
+    prepopulated_fields = {'slug': ('title',)}
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title', 'description',)

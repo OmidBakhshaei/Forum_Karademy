@@ -6,4 +6,8 @@
 
 {% block content %}
     <h1>Aks a question here!</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-dark">Post</button>
 {% endblock content %}

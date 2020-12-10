@@ -4,7 +4,7 @@
 # pylint: disable=E5142
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.urls import reverse
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -14,7 +14,7 @@ class Profile(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=30)
     description = models.TextField()
-    slug = models.SlugField(max_length=30)
+    slug = models.SlugField(max_length=30, unique=True,)
     # users = models.ManyToManyField(User)
     # question = models.ManyToManyField(Question)
     def __str__(self):
@@ -22,11 +22,12 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+        ordering = ('title',)
 
 
 class Question(models.Model):
-    title = models.CharField(max_length=150)
-    # slug = models.SlugField(max_length=150)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
     question = models.TextField()
     # answer = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
@@ -42,6 +43,9 @@ class Question(models.Model):
 
     def categories(self):
         return ", ".join([str(c) for c in self.category.all()])
+
+    def get_absolute_url(self):
+        return reverse("question_details", kwargs={'slug': self.slug})
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
