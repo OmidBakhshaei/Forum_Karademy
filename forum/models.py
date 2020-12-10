@@ -26,6 +26,10 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
         ordering = ('title',)
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Category, self).save(*args, **kwargs)
+
 
 class Question(models.Model):
     title = models.CharField(max_length=255)

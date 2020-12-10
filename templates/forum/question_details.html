@@ -9,14 +9,17 @@
         <div class="media-body">
             <div class="article-metadata">
                 <a class="mr-2" href="#">{{ question.questioner }}</a>
-                <small class="text-muted">{{ question.date_posted }}</small>
+                <small class="text-muted">{{ question.date_posted }}
+                <a href="{% url 'question_update' question.slug %}">(Edit)</a></small>
             </div>
             <h2><a class="article-title" href="{% url 'question_details' question.slug %}">{{ question.title }}</a></h2>
             <p class="article-content">{{ question.question }}</p>
             <p class="article-content">Answers Here</p>
                 <!-- {{ question.answer }} -->
             <p style="color:green" class="article-content">{% if question.answered %} <strong>Solved!</strong> {% endif %}</p>
-            <a class="mr-2" href="#">{{ question.category.first }}</a>
+            {% for category in question.category.all %}
+            <a href="{% url 'category_details' category.slug %}" class="badge badge-warning">{{category}}</a>
+            {% endfor %}
         </div>
     </article>
 {% endblock content %}

@@ -2,7 +2,7 @@
 # pylint: disable=C0115
 # pylint: disable=C0116
 from django.urls import path
-from .views import QuestionDetailView, CategoryDetailView, AskQuestionCreateView
+from .views import QuestionDetailView, CategoryDetailView, AskQuestionCreateView, QuetsionUpdateView, QuestionDeleteView
 from . import views
 
 urlpatterns = [
@@ -13,4 +13,6 @@ urlpatterns = [
     path('categories/', views.categories, name="categories"),
     path('categories/<slug:slug>/', CategoryDetailView.as_view(), name="category_details"),
     path('questions/<slug:slug>/', QuestionDetailView.as_view(), name="question_details"),
+    path('questions/<slug:slug>/edit/', QuetsionUpdateView.as_view(), name="question_update"),
+    path('questions/<slug:slug>/delete/', QuestionDeleteView.as_view(), name="question_delete"),
 ]
