@@ -24,20 +24,21 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
           <div class="container">
-            <a class="navbar-brand mr-4" href="{% url 'forum-home' %}">Q&A</a>
+            <a class="navbar-brand mr-4" href="{% url 'forum-home' %}">Karademy's Q&A</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarToggle">
               <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{% url 'questions_ask' %}">Ask a Question</a>
+                <!-- <a class="nav-item nav-link" href="{% url 'questions_ask' %}">Ask a Question</a> -->
                 <a class="nav-item nav-link" href="{% url 'questions' %}">Questions</a>
                 <a class="nav-item nav-link" href="{% url 'categories' %}">Categories</a>
               </div>
               <!-- Navbar Right Side -->
               <div class="navbar-nav">
-                <a class="nav-item nav-link" href="#">Login</a>
-                <a class="nav-item nav-link" href="#">Register</a>
+                <a class="btn btn-danger navbar-btn" href="{% url 'questions_ask' %}">Ask a Question</a>
+                <!-- <a class="nav-item nav-link" href="#">Login</a> -->
+                <!-- <a class="nav-item nav-link" href="#">Register</a> -->
               </div>
             </div>
           </div>
@@ -55,12 +56,12 @@
               <p class='text-muted'>
                 <ul class="list-group">
                   {% for category in categories %}
-                    <!-- <ul class="list-group">
+                    <ul class="list-group">
                       <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{category}}
+                        <a href="{% url 'category_details' category.slug %}">{{ category }}</a>
                         <span class="badge badge-primary badge-pill">14</span>
-                      </li> -->
-                    <li class="list-group-item list-group-item-light"><a href="{% url 'category_details' category.slug %}">{{ category.title }}</a></li>
+                      </li>
+                    <!-- <li class="list-group-item list-group-item-light"><a href="{% url 'category_details' category.slug %}">{{ category.title }}</a></li> -->
                   {% endfor %}
                 </ul>
               </p>

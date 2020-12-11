@@ -3,12 +3,12 @@
 # pylint: disable=C0116
 from django.contrib import admin
 # from django import forms
-from .models import Question, Category, Answer, Profile
+from .models import Question, Category, Answer
 
 
 class QuestionAdmin(admin.ModelAdmin):
     model= Question
-    list_display = ('title', 'question', 'categories', 'answered',)
+    list_display = ('title', 'question', 'topics', 'answered',)
     filter_horizontal = ('category',)
     prepopulated_fields = {'slug': ('title',)}
 
@@ -24,4 +24,3 @@ admin.site.register(Question, QuestionAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Answer)
 # admin.site.register(Answer, AnswerAdmin)
-admin.site.register(Profile)

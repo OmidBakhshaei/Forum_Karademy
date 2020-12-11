@@ -8,10 +8,6 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.template.defaultfilters import slugify
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField()
-    # profile_picture =
 
 class Category(models.Model):
     title = models.CharField(max_length=30)
@@ -21,7 +17,6 @@ class Category(models.Model):
     # question = models.ManyToManyField(Question)
     def __str__(self):
         return self.title
-
     class Meta:
         verbose_name_plural = "Categories"
         ordering = ('title',)
@@ -38,7 +33,9 @@ class Question(models.Model):
     # answer = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    questioner = models.ForeignKey(User, null=True ,on_delete=models.SET_NULL)
+    questioner = models.ForeignKey(
+        User, null=True ,on_delete=models.SET_NULL, related_name='questions'
+    )
     answered = models.BooleanField(default=False)
     category = models.ManyToManyField(Category)
     # like_num = models.IntegerField()
@@ -47,7 +44,7 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
-    def categories(self):
+    def topics(self):
         return ", ".join([str(c) for c in self.category.all()])
 
     def get_absolute_url(self):
@@ -82,3 +79,8 @@ class Answer(models.Model):
 #     question = models.OneToOneField(Question, on_delete=models.CASCADE)
 #     users = models.ManyToManyField(User)
 #     date_liked = models.DateTimeField(auto_now_add=True)
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     bio = models.TextField()
+    # profile_picture =
