@@ -13,7 +13,9 @@
                 {{ form.as_p }}
                 <!-- for -->
                 <button class="btn btn-dark">Update</button>
-                <a href="{% url 'question_delete' question.slug %}" 
-                class="btn btn-danger" role="button" aria-pressed="true">Delete this question</a>
+                <a href="{% url 'question_delete' question.id %}" 
+                class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
+                <a href="{% url 'question_delete' question.id %}" 
+                class="btn btn-info float-right" role="button" aria-pressed="true">Delete this question</a>
     </div>
 {% endblock content %}

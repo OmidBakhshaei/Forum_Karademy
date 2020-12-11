@@ -10,9 +10,9 @@
         <article class="media content-section">
                 <div class="media-body">
                     <div class="article-metadata">
-                        <a class="mr-2" href="{% url 'category_details' category.slug %}">{{ category.title }}</a>
-                        <!-- <p class="article-content">{{category.title}}</p> -->
+                        <big><a class="mr-2 badge badge-warning" href="{% url 'category_details' category.slug %}">{{ category.title }}</a></big>
                     </div>
+                        <p class="article-content">{{category.description}}</p>
                 </div>
         </article>
     {% endfor %}

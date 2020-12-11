@@ -38,7 +38,7 @@ class Question(models.Model):
     )
     answered = models.BooleanField(default=False)
     category = models.ManyToManyField(Category)
-    # like_num = models.IntegerField()
+    likes = models.ManyToManyField(User, blank=True, null=True, related_name="liked_questions")
     # report_num = models.IntegerField()
 
     def __str__(self):
@@ -48,11 +48,14 @@ class Question(models.Model):
         return ", ".join([str(c) for c in self.category.all()])
 
     def get_absolute_url(self):
-        return reverse("question_details", kwargs={'slug': self.slug})
+        return reverse("question_details", kwargs={'id': self.id})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Question, self).save(*args, **kwargs)
+
+    def get_total_likes(self):
+        return self.likes.count()
 
 
 class Answer(models.Model):
@@ -62,6 +65,7 @@ class Answer(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
     answerer = models.ForeignKey(User, null=True ,on_delete=models.SET_NULL)
     is_published = models.BooleanField(default=False)
+    likes = models.ManyToManyField(User, blank=True, null=True, related_name="liked_answers")
     # like_num = models.IntegerField()
     # report_num = models.IntegerField()
     # approved = models.BooleanField(default=False)
@@ -69,10 +73,8 @@ class Answer(models.Model):
     def __str__(self):
         return "Answer to:  <" + self.question.title + ">  by " + str(self.answerer)
 
-
-
-    # def get_total_likes(self):
-    #     return self.likes.users.count()
+    def get_total_likes_answers(self):
+        return self.likes.count()
 
 
 # class Like(models.Model):

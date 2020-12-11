@@ -11,6 +11,7 @@ from .views import (
     QuestionDeleteView,
     CategoriesListView,
     CategoryDetailView,
+    like_view,
 )
 # from . import views
 
@@ -21,7 +22,8 @@ urlpatterns = [
     path('questions/ask/', AskQuestionCreateView.as_view(), name="questions_ask"),
     path('categories/', CategoriesListView.as_view(), name="categories"),
     path('categories/<slug:slug>/', CategoryDetailView.as_view(), name="category_details"),
-    path('questions/<slug:slug>/', QuestionDetailView.as_view(), name="question_details"),
-    path('questions/<slug:slug>/edit/', QuetsionUpdateView.as_view(), name="question_update"),
-    path('questions/<slug:slug>/delete/', QuestionDeleteView.as_view(), name="question_delete"),
+    path('questions/<int:pk>/', QuestionDetailView.as_view(), name="question_details"),
+    path('questions/<int:pk>/edit/', QuetsionUpdateView.as_view(), name="question_update"),
+    path('questions/<int:pk>/delete/', QuestionDeleteView.as_view(), name="question_delete"),
+    path('like/<int:pk>/', like_view, name="question_like"),
 ]

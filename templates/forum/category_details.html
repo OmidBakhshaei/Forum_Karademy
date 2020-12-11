@@ -5,12 +5,12 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>{{category.title}}</h1>
     <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata">
-                    <p class="article-content">{{category.description}}</p>
+                    <p class="btn btn-warning"><strong>{{category.title}}</strong></p>
                 </div>
+                <p class="article-content">{{category.description}}</p>
             </div>
     </article>
 

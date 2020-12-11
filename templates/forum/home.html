@@ -13,17 +13,21 @@
                 <div class="article-metadata">
                     <a class="mr-2" href="#">{{ question.questioner }}</a>
                     <small class="text-muted">{{ question.date_posted }}
-                    <a href="{% url 'question_update' question.slug %}">(Edit)</a></small>
+                    <a href="{% url 'question_update' question.id %}">(Edit)</a></small>
                     <a href="#" class="badge badge-light float-right">Report</a>
                 </div>
-                <h2><a class="article-title" href="{% url 'question_details' question.slug %}">{{ question.title }}</a></h2>
-                <p class="article-content">{{ question.question }}</p>
+                <h2><a class="article-title" href="{% url 'question_details' question.id %}">{{ question.title }}</a></h2>
+                <p class="article-content p-3 mb-2 bg-light text-dark">{{ question.question }}</p>
                 <p class="article-content">No answer yet! (number of answers)</p>
                 <p style="color:green" class="article-content">{% if question.answered %} <strong>Solved!</strong> {% endif %}</p>
+                <form action="{% url 'question_like' question.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit", name="question_id", value="{{ question.id }}" class="btn btn-outline-success float-right btn-sm">Like<span class="badge">{{ question.get_total_likes }}</span></button>
+                </form>
                 {% for category in question.category.all %}
                 <a href="{% url 'category_details' category.slug %}" class="badge badge-warning">{{category}}</a>
                 {% endfor %}
-                <a type="button" class="btn btn-light float-right btn-sm">Like<span class="badge">7</span></a>
+
             </div>
             </article>
         {% endif %}

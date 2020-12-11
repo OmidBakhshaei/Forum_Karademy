@@ -1,12 +1,12 @@
 # pylint: disable=C0114
 # pylint: disable=C0115
 # pylint: disable=C0116
-# from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 from .models import Question, Category
 from .forms import QuestionForm, EditQuestionForm
-
 
 class HomeListView(ListView):
     model = Question
@@ -45,9 +45,16 @@ class QuestionDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         category_menu = Category.objects.all()
         question_menu = Question.objects.all()
+        the_question = get_object_or_404(Question, id=self.kwargs['pk'])
+        total_likes = the_question.get_total_likes()
+        liked = False
+        if the_question.likes.filter(id=self.request.user.id).exists():
+            liked = True
         context = super(QuestionDetailView, self).get_context_data(*args, **kwargs)
         context["categories"] = category_menu
         context["questions"] = question_menu
+        context["total_likes"] = total_likes
+        context["liked"] = liked
         return context
 
 
@@ -118,3 +125,16 @@ class CategoryDetailView(DetailView):
         context["categories"] = category_menu
         context["questions"] = question_menu
         return context
+
+
+def like_view(request, pk):
+    question = get_object_or_404(Question, id=request.POST.get('question_id'))
+    liked = False
+    if question.likes.filter(id=request.user.id).exists():
+        question.likes.remove(request.user)
+        liked = False
+    else:
+        question.likes.add(request.user)
+        liked = True
+
+    return HttpResponseRedirect(reverse('question_details', args=[str(pk)]))
