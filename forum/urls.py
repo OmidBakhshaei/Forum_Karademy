@@ -16,7 +16,6 @@ from .views import (
 # from . import views
 
 urlpatterns = [
-    # path('', HomeView.as_view(), name="forum-home"),
     path('', HomeListView.as_view(), name="forum-home"),
     path('questions/', QuestionsListView.as_view(), name="questions"),
     path('questions/ask/', AskQuestionCreateView.as_view(), name="questions_ask"),

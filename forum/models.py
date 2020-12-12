@@ -30,16 +30,15 @@ class Question(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     question = models.TextField()
-    # answer = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     questioner = models.ForeignKey(
-        User, null=True ,on_delete=models.SET_NULL, related_name='questions'
+        User, null=True ,on_delete=models.SET_NULL, related_name="questions"
     )
     answered = models.BooleanField(default=False)
-    category = models.ManyToManyField(Category)
-    likes = models.ManyToManyField(User, blank=True, null=True, related_name="liked_questions")
-    # report_num = models.IntegerField()
+    category = models.ManyToManyField(Category, related_name="categories")
+    likes = models.ManyToManyField(User, blank=True, null=True, related_name="likes")
+    reports = models.ManyToManyField(User, blank=True, null=True, related_name="reported_questions")
 
     def __str__(self):
         return self.title
@@ -48,7 +47,7 @@ class Question(models.Model):
         return ", ".join([str(c) for c in self.category.all()])
 
     def get_absolute_url(self):
-        return reverse("question_details", kwargs={'id': self.id})
+        return reverse("question_details", args=(str(self.id)))
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -59,21 +58,20 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name="questions", on_delete=models.CASCADE)
     answer = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     answerer = models.ForeignKey(User, null=True ,on_delete=models.SET_NULL)
     is_published = models.BooleanField(default=False)
     likes = models.ManyToManyField(User, blank=True, null=True, related_name="liked_answers")
-    # like_num = models.IntegerField()
-    # report_num = models.IntegerField()
-    # approved = models.BooleanField(default=False)
+    approved = models.BooleanField(default=False)
+    reports = models.ManyToManyField(User, blank=True, null=True, related_name="reported_answers")
 
     def __str__(self):
         return "Answer to:  <" + self.question.title + ">  by " + str(self.answerer)
 
-    def get_total_likes_answers(self):
+    def get_total_likes(self):
         return self.likes.count()
 
 
