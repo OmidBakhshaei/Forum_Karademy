@@ -14,7 +14,6 @@ class Category(models.Model):
     description = models.TextField()
     slug = models.SlugField(max_length=30, unique=True,)
     # users = models.ManyToManyField(User)
-    # question = models.ManyToManyField(Question)
     def __str__(self):
         return self.title
     class Meta:
@@ -37,8 +36,12 @@ class Question(models.Model):
     )
     answered = models.BooleanField(default=False)
     category = models.ManyToManyField(Category, related_name="categories")
-    likes = models.ManyToManyField(User, blank=True, null=True, related_name="likes")
-    reports = models.ManyToManyField(User, blank=True, null=True, related_name="reported_questions")
+    likes = models.ManyToManyField(User, blank=True, related_name="likes")
+
+    class Meta:
+        verbose_name_plural = "Categories"
+        ordering = ('-date_posted',)
+
 
     def __str__(self):
         return self.title
@@ -63,10 +66,8 @@ class Answer(models.Model):
     date_posted = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     answerer = models.ForeignKey(User, null=True ,on_delete=models.SET_NULL)
-    is_published = models.BooleanField(default=False)
-    likes = models.ManyToManyField(User, blank=True, null=True, related_name="liked_answers")
+    likes = models.ManyToManyField(User, blank=True, related_name="liked_answers")
     approved = models.BooleanField(default=False)
-    reports = models.ManyToManyField(User, blank=True, null=True, related_name="reported_answers")
 
     def __str__(self):
         return "Answer to:  <" + self.question.title + ">  by " + str(self.answerer)
@@ -75,10 +76,6 @@ class Answer(models.Model):
         return self.likes.count()
 
 
-# class Like(models.Model):
-#     question = models.OneToOneField(Question, on_delete=models.CASCADE)
-#     users = models.ManyToManyField(User)
-#     date_liked = models.DateTimeField(auto_now_add=True)
 
 # class Profile(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE)

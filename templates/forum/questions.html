@@ -14,7 +14,7 @@
                 <a href="{% url 'question_update' question.id %}">(Edit)</a></small>
                 <a href="#" class="badge badge-light float-right">Report</a>
             </div>
-            <h2><a class="article-title" href="{% url 'question_details' question.id %}">{{ question.title }}</a></h2>
+            <h3><a class="article-title" href="{% url 'question_details' question.id %}">{{ question.title }}</a></h3>
             <p class="article-content p-3 mb-2 bg-light text-dark">{{ question.question }}</p>
             <p class="article-content">No answer yet! (number of answers)</p>
                 <!-- {{ question.answer }} -->

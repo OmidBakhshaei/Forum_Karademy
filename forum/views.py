@@ -62,7 +62,7 @@ class QuetsionUpdateView(UpdateView):
     model = Question
     form_class = EditQuestionForm
     template_name = 'forum/update_question.html'
-    # fields = ['title', 'question', 'questioner', 'category', 'answered']
+    success_url = reverse_lazy('questions')
     def get_context_data(self, *args, **kwargs):
         category_menu = Category.objects.all()
         question_menu = Question.objects.all()
@@ -89,7 +89,7 @@ class AskQuestionCreateView(CreateView):
     model = Question
     form_class = QuestionForm
     template_name = 'forum/ask.html'
-    
+    success_url = reverse_lazy('questions')
     def get_context_data(self, *args, **kwargs):
         category_menu = Category.objects.all()
         question_menu = Question.objects.all()
@@ -103,7 +103,7 @@ class CategoriesListView(ListView):
     model = Question
     template_name = 'forum/categories.html'
     ordering = ['-date_posted']
-
+    success_url = reverse_lazy('questions')
     def get_context_data(self, *args, **kwargs):
         category_menu = Category.objects.all()
         question_menu = Question.objects.all()
