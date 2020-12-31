@@ -39,7 +39,6 @@ class Question(models.Model):
     likes = models.ManyToManyField(User, blank=True, related_name="likes")
 
     class Meta:
-        verbose_name_plural = "Categories"
         ordering = ('-date_posted',)
 
 
@@ -61,7 +60,7 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question, related_name="questions", on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name="answers", on_delete=models.CASCADE)
     answer = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)

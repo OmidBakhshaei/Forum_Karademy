@@ -31,8 +31,38 @@
             <a href="{% url 'category_details' category.slug %}" class="badge badge-warning">{{category}}</a>
             {% endfor %}
         </div>
+
     </article>
 
+    {% if not question.answers.all %}
+        <a href="#" 
+        class="btn btn-info float-left" role="button" aria-pressed="true">Answer this question</a>
+    {% else %}
+        {% for answer in question.answers.all %}
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="#">{{ answer.answerer }}</a>
+                        <small class="text-muted">{{ answer.date_posted }}
+                        <a href="{% url 'question_update' question.id %}">(Edit)</a></small>
+                        <a href="#" class="badge badge-light float-right">Report</a></p>
+                    </div>
+                    <p class="article-content p-3 mb-2 bg-light text-dark">{{ answer.answer }}
+                    <form action="{% url 'question_like' question.id %}"
+                    method="POST">
+                        {% csrf_token %}
+                        {% if liked %}
+                        <button type="submit", name="question_id", value="{{ question.id }}" class="btn btn-success float-right btn-sm active">Liked<span class="badge">{{ total_likes }}</span></button>
+                        {% else %}
+                        <button type="submit", name="question_id", value="{{ question.id }}" class="btn btn-outline-success float-right btn-sm">Like<span class="badge">{{ total_likes }}</span></button>
+                        {% endif %}
+                    </form>
+                </div>
+            </article>
+        {% endfor %}
+        <a href="#" 
+        class="btn btn-info float-left" role="button" aria-pressed="true">Answer this question</a>
+    {% endif %}
 
 
 {% endblock content %}

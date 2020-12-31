@@ -8,7 +8,7 @@ from .models import Question, Category, Answer
 
 class QuestionAdmin(admin.ModelAdmin):
     model= Question
-    list_display = ('title', 'question', 'topics', 'answered',)
+    list_display = ('title', 'topics', 'answered',)
     filter_horizontal = ('category',)
     prepopulated_fields = {'slug': ('title',)}
 

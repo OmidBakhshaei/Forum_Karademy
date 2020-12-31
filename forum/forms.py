@@ -2,14 +2,13 @@
 # pylint: disable=C0115
 # pylint: disable=C0116
 # pylint: disable=C0301
-#
 from django import forms
 from .models import Question
 
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ('title', 'question', 'questioner', 'category', 'answered')
+        fields = ('title', 'question', 'questioner', 'category',)
 
         widgets = {
             'title' : forms.TextInput(attrs={
@@ -23,7 +22,7 @@ class QuestionForm(forms.ModelForm):
             'questioner' : forms.Select(attrs={'class': 'form-control'}),
             # 'category': forms.CheckboxSelectMultiple(attrs={'class': "form-check form-check-inline"}),
             'category': forms.CheckboxSelectMultiple(),
-            'answered': forms.CheckboxInput(attrs={'class': "form-check form-check-inline"})
+            # 'answered': forms.CheckboxInput(attrs={'class': "form-check form-check-inline"})
         }
 
 
